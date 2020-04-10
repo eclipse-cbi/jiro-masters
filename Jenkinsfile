@@ -6,6 +6,7 @@ pipeline {
 
   options { 
     buildDiscarder(logRotator(numToKeepStr: '5'))
+    disableConcurrentBuilds()
   }
 
   triggers {
@@ -23,20 +24,18 @@ pipeline {
   }
 
   post {
-    always {
-      failure {
-        mail to: '',
-          subject: "[CBI] Build Failure ${currentBuild.fullDisplayName}",
-          body: "Project: ${env.JOB_NAME}<br/>Build Number: ${env.BUILD_NUMBER}<br/>Build URL: ${env.BUILD_URL}"
-      }
-      fixed {
-        mail to: '',
-          subject: "[CBI] Back to normal ${currentBuild.fullDisplayName}",
-          body: "Project: ${env.JOB_NAME}<br/>Build Number: ${env.BUILD_NUMBER}<br/>Build URL: ${env.BUILD_URL}"
-      }
-      cleanup {
-        deleteDir() /* clean up workspace */
-      }
+    failure {
+      mail to: '',
+        subject: "[CBI] Build Failure ${currentBuild.fullDisplayName}",
+        body: "Project: ${env.JOB_NAME}<br/>Build Number: ${env.BUILD_NUMBER}<br/>Build URL: ${env.BUILD_URL}"
+    }
+    fixed {
+      mail to: '',
+        subject: "[CBI] Back to normal ${currentBuild.fullDisplayName}",
+        body: "Project: ${env.JOB_NAME}<br/>Build Number: ${env.BUILD_NUMBER}<br/>Build URL: ${env.BUILD_URL}"
+    }
+    cleanup {
+      deleteDir() /* clean up workspace */
     }
   }
 }
