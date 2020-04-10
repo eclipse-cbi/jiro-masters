@@ -47,7 +47,7 @@ download_war_file() {
 
   printf "War base URL: %s\n" "${war_base_url}" | DEBUG
 
-  docker run -it --rm \
+  docker run --rm \
     -v "${build_dir}:/tmp/workdir" \
     -w "/tmp/workdir" \
     "${TOOLS_IMAGE}" -- \
@@ -80,7 +80,7 @@ download_plugins() {
   war_file="war/$(basename "$(jq -r '.war' "${config}")")"
   printf "Downloading plugins from update center '%s'" "${updateCenter}\n" | DEBUG
 
-  docker run -it --rm \
+  docker run --rm \
     -v "${build_dir}/scripts:/usr/local/bin/scripts" \
     -v "${build_dir}:/tmp/workdir" \
     -w "/tmp/workdir" \
