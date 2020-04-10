@@ -1,3 +1,5 @@
+[![Build Status](https://ci.eclipse.org/cbi/buildStatus/icon?job=jiro-masters%2Fmaster)](https://ci.eclipse.org/cbi/job/jiro-masters/job/master/)
+
 # JIRO Masters
 
 Defines the base container images for JIRO masters.
