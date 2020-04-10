@@ -7,9 +7,9 @@
 # SPDX-License-Identifier: EPL-2.0 OR MIT
 #*******************************************************************************
 
-.PHONY: all clean
-
+SHELL=/usr/bin/env bash
 MASTERS_IDS=$(shell jq -r '.masters[].id' <<<$$(jsonnet "masters.jsonnet" 2> /dev/null) || echo 'none')
+.PHONY: all clean $(MASTERS_IDS)
 
 .bashtools:
 	bash -c "$$(curl -fsSL https://raw.githubusercontent.com/completeworks/bashtools/master/install.sh)"
