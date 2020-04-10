@@ -4,6 +4,29 @@
 
 Defines the base container images for JIRO masters.
 
+## How to add custom master?
+
+All fields in `default::` can be overriden in the supported array elements, e.g. to define a jdk11 based master:
+
+```jsonnet
+{
+  releases: {
+    supported: [
+      {
+        id: "%s-jdk11" % self.version,
+        version: "2.222.1",
+        remoting+: {
+          version: "4.2",
+        },
+        docker+: {
+          from: "eclipsecbi/adoptopenjdk-coreutils:openjdk11-openj9-alpine-slim",
+        },
+      },
+    ]
+  }
+}
+```
+
 ## Dependencies
 
 * [docker](https://www.docker.com)

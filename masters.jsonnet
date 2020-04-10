@@ -25,16 +25,6 @@
         },
       },
       {
-        id: "%s-jdk11" % self.version,
-        version: "2.222.1",
-        remoting+: {
-          version: "4.2",
-        },
-        docker+: {
-          from: "eclipsecbi/adoptopenjdk-coreutils:openjdk11-openj9-alpine-slim",
-        },
-      },
-      {
         version: "2.204.6",
         remoting+: {
           version: "3.36.1",
