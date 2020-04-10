@@ -25,12 +25,12 @@ pipeline {
 
   post {
     failure {
-      mail to: '',
+      mail to: 'releng-team@eclipse-foundation.org',
         subject: "[CBI] Build Failure ${currentBuild.fullDisplayName}",
         body: "Project: ${env.JOB_NAME}<br/>Build Number: ${env.BUILD_NUMBER}<br/>Build URL: ${env.BUILD_URL}"
     }
     fixed {
-      mail to: '',
+      mail to: 'releng-team@eclipse-foundation.org',
         subject: "[CBI] Back to normal ${currentBuild.fullDisplayName}",
         body: "Project: ${env.JOB_NAME}<br/>Build Number: ${env.BUILD_NUMBER}<br/>Build URL: ${env.BUILD_URL}"
     }
