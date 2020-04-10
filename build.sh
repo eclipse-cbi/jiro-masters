@@ -8,7 +8,7 @@
 # SPDX-License-Identifier: EPL-2.0 OR MIT
 #*******************************************************************************
 
-export LOG_LEVEL=600
+export LOG_LEVEL="${LOG_LEVEL:-600}"
 # shellcheck disable=SC1090
 . "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/.bashtools/bashtools"
 
