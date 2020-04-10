@@ -38,6 +38,8 @@ download_war_file() {
   build_dir="$(dirname "${config}")"
   INFO "Downloading and verifying Jenkins war file"
   
+  mkdir -p "${config_dir}/war"
+
   local version key_fingerprint war_base_url war_file
   version="$(jq -r '.version' "${config}")"
   key_fingerprint="$(jq -r '.key_fingerprint' "${config}")"
@@ -77,6 +79,9 @@ download_plugins() {
   build_dir="$(dirname "${config}")"
   INFO "Downloading Jenkins plugins to be installed"
 
+  mkdir -p "${config_dir}/ref"
+  jq -r '.plugins[]' "${config}" > "${build_dir}/plugins.txt"
+
   local updateCenter war_file
   updateCenter="$(jq -r '.updateCenter' "${config}")"
   war_file="war/$(basename "$(jq -r '.war' "${config}")")"
@@ -103,9 +108,10 @@ build_docker_image() {
   local build_dir
   build_dir="$(dirname "${config}")"
 
+  jq -r '.dockerfile' "${config}" > "${build_dir}/Dockerfile"
+
   local image tag
-  # $(jq -r '.docker.registry' "${config}")/
-  image="$(jq -r '.docker.repository' "${config}")/$(jq -r '.docker.image' "${config}")"
+  image="$(jq -r '.docker.registry' "${config}")/$(jq -r '.docker.repository' "${config}")/$(jq -r '.docker.image' "${config}")"
   tag="$(jq -r '.docker.tag' "${config}")"
   local latest="false"
   if [[ "${id}" = "${latest_id}" ]]; then
@@ -118,28 +124,25 @@ build_docker_image() {
 
 build_master() {
   local id="${1}"
-  local instance_dir="${BUILD_DIR}/${id}"
-  local instance_config="${instance_dir}/config.json"
+  local config_dir="${BUILD_DIR}/${id}"
+  local config="${config_dir}/config.json"
 
-  INFO "Building jiro-master '${id}' in '${instance_dir}'"
-  mkdir -p "${instance_dir}/war" "${instance_dir}/ref"
-
+  INFO "Building jiro-master '${id}'"
+  
   INFO "Generate instance files from templates"
-  jq -r '.masters[] | select(.id=="'"${id}"'")' "${MASTER_JSON}" > "${instance_config}"
-  jq -r '.dockerfile' "${instance_config}" > "${instance_dir}/Dockerfile"
-  jq -r '.plugins[]' "${instance_config}" > "${instance_dir}/plugins.txt"
+  mkdir -p "${config_dir}"
+  jq -r '.masters[] | select(.id=="'"${id}"'")' "${MASTER_JSON}" > "${config}"
+
+  download_war_file "${config}"
 
   INFO "Downloading support scripts"
-  download ifmodified "$(jq -r '.scripts.install_plugins' "${instance_config}")" "${instance_dir}/tools/install-plugins.sh"
-  download ifmodified "$(jq -r '.scripts.jenkins_support' "${instance_config}")" "${instance_dir}/scripts/jenkins-support"
-  download ifmodified "$(jq -r '.scripts.jenkins' "${instance_config}")" "${instance_dir}/scripts/jenkins.sh"
-  chmod u+x "${instance_dir}/scripts/"*.sh "${instance_dir}/tools/"*.sh
-
-  download_war_file "${instance_config}"
-
-  download_plugins "${instance_config}"
-
-  build_docker_image "${instance_config}"
+  download ifmodified "$(jq -r '.scripts.install_plugins' "${config}")" "${config_dir}/tools/install-plugins.sh"
+  download ifmodified "$(jq -r '.scripts.jenkins_support' "${config}")" "${config_dir}/scripts/jenkins-support"
+  download ifmodified "$(jq -r '.scripts.jenkins' "${config}")" "${config_dir}/scripts/jenkins.sh"
+  chmod u+x "${config_dir}/scripts/"*.sh "${config_dir}/tools/"*.sh
+  
+  download_plugins "${config}"
+  build_docker_image "${config}"
 }
 
 if [[ -n ${MASTER_ID} ]]; then
