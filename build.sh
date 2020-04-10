@@ -47,10 +47,12 @@ download_war_file() {
 
   printf "War base URL: %s\n" "${war_base_url}" | DEBUG
 
-  docker run --rm \
+  docker run -u "$(id -u):$(id -g)" --rm \
     -v "${build_dir}:/tmp/workdir" \
     -w "/tmp/workdir" \
-    "${TOOLS_IMAGE}" -- \
+    -e HOME="/tmp/workdir" \
+    --entrypoint "" \
+    "${TOOLS_IMAGE}" \
     /bin/bash -c \
       "curl -fsSL '${war_base_url}/jenkins-war-${version}.war.asc' -o '${war_file}.asc' -z '${war_file}.asc' \
       && curl -fsSL '${war_base_url}/jenkins-war-${version}.war' -o '${war_file}' -z '${war_file}' \
@@ -80,15 +82,16 @@ download_plugins() {
   war_file="war/$(basename "$(jq -r '.war' "${config}")")"
   printf "Downloading plugins from update center '%s'" "${updateCenter}\n" | DEBUG
 
-  docker run --rm \
-    -v "${build_dir}/scripts:/usr/local/bin/scripts" \
+  docker run -u "$(id -u):$(id -g)" --rm \
+    -v "${build_dir}/scripts:/usr/local/bin" \
     -v "${build_dir}:/tmp/workdir" \
     -w "/tmp/workdir" \
-    "${TOOLS_IMAGE}" -- \
+    -e HOME="/tmp/workdir" \
+    --entrypoint "" \
+    "${TOOLS_IMAGE}" \
     /bin/bash -c \
       "export REF='/tmp/workdir/ref' \
       && export JENKINS_WAR='/tmp/workdir/${war_file}' \
-      && ln -s /usr/local/bin/scripts/jenkins-support /usr/local/bin/jenkins-support \
       && export JENKINS_UC='${updateCenter}' \
       && export CURL_RETRY='8' \
       && export CURL_RETRY_MAX_TIME='120' \
@@ -101,7 +104,8 @@ build_docker_image() {
   build_dir="$(dirname "${config}")"
 
   local image tag
-  image="$(jq -r '.docker.registry' "${config}")/$(jq -r '.docker.repository' "${config}")/$(jq -r '.docker.image' "${config}")"
+  # $(jq -r '.docker.registry' "${config}")/
+  image="$(jq -r '.docker.repository' "${config}")/$(jq -r '.docker.image' "${config}")"
   tag="$(jq -r '.docker.tag' "${config}")"
   local latest="false"
   if [[ "${id}" = "${latest_id}" ]]; then
