@@ -17,6 +17,7 @@ PATH="${SCRIPT_FOLDER}/.jsonnet:${SCRIPT_FOLDER}/.dockertools:${PATH}"
 
 MASTER_JSONNET="${1}"
 MASTER_ID="${2:-}"
+PUSH_IMAGES="${PUSH_IMAGES:-"true"}"
 
 TOOLS_IMAGE="eclipsecbi/adoptopenjdk-coreutils:openjdk8-openj9-alpine-slim"
 BUILD_DIR="${SCRIPT_FOLDER}/target/"
@@ -118,8 +119,8 @@ build_docker_image() {
     latest="true"
   fi
   
-  INFO "Building and pushing docker image ${image}:${tag} (latest=${latest})"
-  dockerw build "${image}" "${tag}" "${build_dir}/Dockerfile" "${build_dir}" "true" "${latest}" |& TRACE
+  INFO "Building docker image ${image}:${tag} (latest=${latest}) (push=${PUSH_IMAGES})"
+  dockerw build "${image}" "${tag}" "${build_dir}/Dockerfile" "${build_dir}" "${PUSH_IMAGES}" "${latest}" |& TRACE
 }
 
 build_master() {
