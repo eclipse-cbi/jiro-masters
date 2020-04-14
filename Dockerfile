@@ -14,11 +14,9 @@ ENV HOME="%(home)s"
 
 # jenkins version being bundled in this docker image
 ENV JENKINS_HOME="%(home)s"
-ENV JENKINS_VERSION="%(version)s"
 ENV JENKINS_WAR="%(war)s"
-ENV REF="%(ref)s"
-
 ENV COPY_REFERENCE_FILE_LOG="%(home)s/copy_reference_file.log"
+ENV REF="%(ref)s"
 
 VOLUME [ "%(home)s", "%(webroot)s", "%(pluginroot)s" ]
 WORKDIR "%(home)s"
