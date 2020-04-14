@@ -12,8 +12,6 @@ FROM %(docker_from)s
 ENV USER_NAME="%(username)s"
 ENV HOME="%(home)s"
 
-VOLUME [ "%(home)s", "%(webroot)s", "%(pluginroot)s" ]
-
 # jenkins version being bundled in this docker image
 ENV JENKINS_HOME="%(home)s"
 ENV JENKINS_VERSION="%(version)s"
@@ -22,10 +20,13 @@ ENV REF="%(ref)s"
 
 ENV COPY_REFERENCE_FILE_LOG="%(home)s/copy_reference_file.log"
 
+VOLUME [ "%(home)s", "%(webroot)s", "%(pluginroot)s" ]
+WORKDIR "%(home)s"
+
+ENTRYPOINT ["uid_entrypoint", "/usr/bin/dumb-init", "--", "/usr/local/bin/jenkins.sh"]
+
 RUN mkdir -p $(dirname "%(war)s") && mkdir -p "%(ref)s"
 
 COPY scripts/* /usr/local/bin/
 COPY war/jenkins.war "%(war)s"
 COPY ref/ "%(ref)s/"
-
-ENTRYPOINT ["uid_entrypoint", "/usr/bin/dumb-init", "--", "/usr/local/bin/jenkins.sh"]
