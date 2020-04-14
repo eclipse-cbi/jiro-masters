@@ -10,20 +10,18 @@ All fields in `default::` can be overriden in the supported array elements, e.g.
 
 ```jsonnet
 {
-  releases: {
-    supported: [
-      {
-        id: "%s-jdk11" % self.version,
-        version: "2.222.1",
-        remoting+: {
-          version: "4.2",
-        },
-        docker+: {
-          from: "eclipsecbi/adoptopenjdk-coreutils:openjdk11-openj9-alpine-slim",
-        },
+  masters: [
+    $.default + {
+      id: "%s-jdk11" % self.version,
+      version: "2.222.1",
+      remoting+: {
+        version: "4.2",
       },
-    ]
-  }
+      docker+: {
+        from: "eclipsecbi/adoptopenjdk-coreutils:openjdk11-openj9-alpine-slim",
+      },
+    },
+  ]
 }
 ```
 
