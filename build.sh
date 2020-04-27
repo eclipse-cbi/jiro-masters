@@ -121,7 +121,7 @@ build_master() {
   INFO "Building jiro-master '${id}'"
   
   mkdir -p "${config_dir}"
-  jq -r '.masters[] | select(.id=="'"${id}"'")' "${MASTERS_JSON}" > "${config}"
+  jq -r '.masters["'"${id}"'"]' "${MASTERS_JSON}" > "${config}"
 
   download_war_file "${config}"
 
@@ -149,7 +149,7 @@ latest_id=$(jq -r '.releases.latest' "${MASTERS_JSON}")
 if [[ -n ${MASTER_ID} ]]; then
   build_master "${MASTER_ID}"
 else 
-  for id in $(jq -r '.masters[].id' "${MASTERS_JSON}"); do
+  for id in $(jq -r '.masters | keys[]' "${MASTERS_JSON}"); do
     build_master "${id}"
   done
 fi
