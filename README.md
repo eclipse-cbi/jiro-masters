@@ -6,12 +6,14 @@ Defines the base container images for JIRO masters.
 
 ## How to add custom master?
 
-All fields in `default::` can be overriden in the supported array elements, e.g. to define a jdk11 based master:
+All fields in `default.libsonnet` can be overriden in the `masters` array elements, e.g. to define a jdk11 based master:
 
 ```jsonnet
+local default = import "default.libsonnet";
+
 {
   masters: [
-    $.default + {
+    default + {
       id: "%s-jdk11" % self.version,
       version: "2.222.1",
       remoting+: {
@@ -24,6 +26,22 @@ All fields in `default::` can be overriden in the supported array elements, e.g.
   ]
 }
 ```
+
+## Building
+
+To build all masters as defined in masters.jsonnet, run
+
+```bash
+make all
+```
+
+To build a single master, run
+
+```bash
+make <id>
+```
+
+where `<id>` is the master's ID as specified in `masters.jsonnet`
 
 ## Dependencies
 

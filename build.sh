@@ -13,25 +13,15 @@ export LOG_LEVEL="${LOG_LEVEL:-600}"
 . "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/.bashtools/bashtools"
 
 SCRIPT_FOLDER="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
-PATH="${SCRIPT_FOLDER}/.jsonnet:${SCRIPT_FOLDER}/.dockertools:${PATH}"
+PATH="${SCRIPT_FOLDER}/.dockertools:${PATH}"
 
-MASTER_JSONNET="${1}"
+MASTERS_JSONNET="${1}"
 MASTER_ID="${2:-}"
 PUSH_IMAGES="${PUSH_IMAGES:-"true"}"
 
 TOOLS_IMAGE="eclipsecbi/adoptopenjdk-coreutils:openjdk8-openj9-alpine-slim"
 BUILD_DIR="${SCRIPT_FOLDER}/target/"
-MASTER_JSON="${BUILD_DIR}/masters.json"
-
-# gen the computed masters.json (mainly for .masters[])
-mkdir -p "${BUILD_DIR}/"
-jsonnet "${MASTER_JSONNET}" > "${MASTER_JSON}"
-
-DEBUG "Removing potential dust (*.lock) of install-plugins.sh from previous runs"
-find "${BUILD_DIR}" -type d -name "*.lock" -delete
-
-# latest Jenkins id
-latest_id=$(jq -r '.releases.latest' "${MASTER_JSON}")
+MASTERS_JSON="${BUILD_DIR}/masters.json"
 
 download_war_file() {
   local config="${1}"
@@ -70,7 +60,7 @@ download_war_file() {
     ERROR "ERROR: Remoting version specified for Jenkins ${version} (read $(jq -r '.remoting.version' "${config}")) does not match the one from WAR file (expected ${remoting_embedded_version})"
     exit 1
   else
-    printf "Embedded remoting version %s matches with the remoting version specified in %s\n" "${remoting_embedded_version}" "${MASTER_JSONNET}" | DEBUG
+    printf "Embedded remoting version %s matches with the remoting version specified in %s\n" "${remoting_embedded_version}" "${MASTERS_JSONNET}" | DEBUG
   fi
 }
 
@@ -119,7 +109,7 @@ build_docker_image() {
     latest="true"
   fi
   
-  INFO "Building docker image ${image}:${tag} (latest=${latest}) (push=${PUSH_IMAGES})"
+  INFO "Building docker image ${image}:${tag} (latest=${latest}, push=${PUSH_IMAGES})"
   dockerw build "${image}" "${tag}" "${build_dir}/Dockerfile" "${build_dir}" "${PUSH_IMAGES}" "${latest}" |& TRACE
 }
 
@@ -130,9 +120,8 @@ build_master() {
 
   INFO "Building jiro-master '${id}'"
   
-  INFO "Generate instance files from templates"
   mkdir -p "${config_dir}"
-  jq -r '.masters[] | select(.id=="'"${id}"'")' "${MASTER_JSON}" > "${config}"
+  jq -r '.masters[] | select(.id=="'"${id}"'")' "${MASTERS_JSON}" > "${config}"
 
   download_war_file "${config}"
 
@@ -146,10 +135,21 @@ build_master() {
   build_docker_image "${config}"
 }
 
+# gen the computed masters.json (mainly for .masters[])
+mkdir -p "${BUILD_DIR}/"
+jsonnet "${MASTERS_JSONNET}" > "${MASTERS_JSON}"
+
+DEBUG "Removing potential dust (*.lock) of install-plugins.sh from previous runs"
+find "${BUILD_DIR}" -type d -name "*.lock" -delete
+
+# latest Jenkins id
+latest_id=$(jq -r '.releases.latest' "${MASTERS_JSON}")
+
+# main
 if [[ -n ${MASTER_ID} ]]; then
   build_master "${MASTER_ID}"
 else 
-  for id in $(jq -r '.masters[].id' "${MASTER_JSON}"); do
+  for id in $(jq -r '.masters[].id' "${MASTERS_JSON}"); do
     build_master "${id}"
   done
 fi
