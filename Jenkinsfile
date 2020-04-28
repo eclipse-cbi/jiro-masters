@@ -14,7 +14,7 @@ pipeline {
   }
 
   stages {
-    stage('Build and push JIRO master images') {
+    stage('Build and push JIRO masters images') {
       steps {
         withDockerRegistry([credentialsId: 'e93ba8f9-59fc-4fe4-a9a7-9a8bd60c17d9', url: 'https://index.docker.io/v1/']) {
           sh 'make all'
