@@ -23,6 +23,8 @@ TOOLS_IMAGE="eclipsecbi/adoptopenjdk-coreutils:openjdk8-openj9-alpine-slim"
 BUILD_DIR="${SCRIPT_FOLDER}/target/"
 MASTERS_JSON="${BUILD_DIR}/masters.json"
 
+IMAGE_WD="/workdir"
+
 download_war_file() {
   local config="${1}"
   local build_dir
@@ -41,9 +43,9 @@ download_war_file() {
   printf "War base URL: %s\n" "${war_base_url}" | DEBUG
 
   docker run -u "$(id -u):$(id -g)" --rm \
-    -v "${build_dir}:/tmp/workdir" \
-    -w "/tmp/workdir" \
-    -e HOME="/tmp/workdir" \
+    -v "${build_dir}:${IMAGE_WD}" \
+    -w "${IMAGE_WD}" \
+    -e HOME="${IMAGE_WD}" \
     --entrypoint "" \
     "${TOOLS_IMAGE}" \
     /bin/bash -c \
@@ -80,14 +82,14 @@ download_plugins() {
 
   docker run -u "$(id -u):$(id -g)" --rm \
     -v "${build_dir}/scripts:/usr/local/bin" \
-    -v "${build_dir}:/tmp/workdir" \
-    -w "/tmp/workdir" \
-    -e HOME="/tmp/workdir" \
+    -v "${build_dir}:${IMAGE_WD}" \
+    -w "${IMAGE_WD}" \
+    -e HOME="${IMAGE_WD}" \
     --entrypoint "" \
     "${TOOLS_IMAGE}" \
     /bin/bash -c \
-      "export REF='/tmp/workdir/ref' \
-      && export JENKINS_WAR='/tmp/workdir/${war_file}' \
+      "export REF='${IMAGE_WD}/ref' \
+      && export JENKINS_WAR='${IMAGE_WD}/${war_file}' \
       && export JENKINS_UC='${updateCenter}' \
       && export CURL_RETRY='8' \
       && export CURL_RETRY_MAX_TIME='120' \
