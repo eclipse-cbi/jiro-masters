@@ -26,5 +26,7 @@ ENTRYPOINT ["uid_entrypoint", "/usr/bin/dumb-init", "--", "/usr/local/bin/jenkin
 RUN mkdir -p $(dirname "%(war)s") && mkdir -p "%(ref)s"
 
 COPY scripts/* /usr/local/bin/
+RUN chmod ug+x /usr/local/bin/*
+
 COPY war/jenkins.war "%(war)s"
 COPY ref/ "%(ref)s/"
