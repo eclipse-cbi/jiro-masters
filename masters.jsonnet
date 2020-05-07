@@ -22,7 +22,7 @@ local default = import "default.libsonnet";
       default + {
         version: "2.222.3",
         remoting+: {
-          version: "4.2",
+          version: "4.2.1",
         },
       },
       default + {
