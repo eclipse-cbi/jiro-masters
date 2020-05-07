@@ -37,40 +37,40 @@
     # Does not set the plugin center to be used by the running instance.
     updateCenter: "https://updates.jenkins.io",
     plugins: [
-      "analysis-core",
-      "ant",
-      "antisamy-markup-formatter",
-      "authorize-project",
-      "bouncycastle-api",
-      "build-timeout",
-      "cloudbees-folder",
-      "command-launcher",
-      "config-file-provider",
+      "analysis-core", 
+      "ant", # Ant support (global tools, pipleine, freestype job build step)
+      "antisamy-markup-formatter", # Provides "Safe HTML" option
+      "authorize-project", #security
+      "bouncycastle-api", # IMPLIED by many, maybe not required
+      "build-timeout", # automatically abort a build if it’s taking too long
+      "cloudbees-folder", # Organize jobs into folder
+      "command-launcher", # Launch permanent agents via a command on the master
+      "config-file-provider", # TO_REMOVE, direct dependency of "pipeline-maven"
       "configuration-as-code",
-      "configuration-as-code-support",
-      "credentials-binding",
-      "email-ext",
+      "configuration-as-code-support", # TO_REMOVE, deprecated
+      "credentials-binding", # withCredentials
+      "email-ext", 
       "extended-read-permission",
-      "external-monitor-job",
-      "extra-columns",
-      "findbugs",
+      "external-monitor-job", #required for upgrade of core installed version
+      "extra-columns", # view custo
+      "findbugs", #TO_REMOVE, deprecated (all feature in warnings-ng and analysis-model)
       "gerrit-trigger",
-      "ghprb",
-      "git",
-      "git-parameter",
+      "ghprb", # TO_REMOVE (use GH branch source)
+      "git", # direct dependency of many (github..)
+      "git-parameter", # lookup for usage
       "github",
       "github-branch-source",
-      "greenballs",
-      "jdk-tool",
+      "greenballs", # TO_REMOVE => useless
+      "jdk-tool", # TO_REMOVE, not used (depends on ORacle)
       "jobConfigHistory",
-      "kubernetes",
-      "ldap",
-      "mailer",
+      "kubernetes", # dah!
+      "ldap", # dah!
+      "mailer", # ex-core plugin
       "matrix-auth",
-      "pam-auth",
+      "pam-auth", # required for upgrade of core installed version
       "parameterized-trigger",
       "pipeline-maven",
-      "pipeline-stage-view",
+      "pipeline-stage-view", # blueocean lite
       "promoted-builds",
       "rebuild",
       "simple-theme-plugin",
@@ -78,9 +78,9 @@
       "ssh-agent",
       "ssh-slaves",
       "timestamper",
-      "windows-slaves",
-      "workflow-aggregator",
-      "ws-cleanup",
+      "windows-slaves", # TO_REMOVE, useless (only usefull when master run ON windows)
+      "workflow-aggregator", # base pipeline
+      "ws-cleanup", # TO_REMOVE, IMO useless
       "xvnc",
     ],
     dockerfile: (importstr "Dockerfile") % ( self + { docker_from: jenkins.docker.from } ),
