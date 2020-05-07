@@ -55,11 +55,12 @@ download_war_file() {
       && echo -e '5\ny\n' |  gpg -q --batch --command-fd 0 --expert --edit-key ${key_fingerprint} trust 2> /dev/null \
       && gpg -q --batch --verify '${war_file}.asc' '${war_file}' 2>&1 /dev/null" |& TRACE
 
-  # Check if embedded remoting version as declared by war file == the one declared in masters.jsonnet
-  local remoting_embedded_version
+  # Check if embedded remoting version as declared by war file >= the one declared in masters.jsonnet
+  local remoting_embedded_version remoting_version
   remoting_embedded_version="$(unzip -p "${build_dir}/${war_file}" META-INF/MANIFEST.MF | grep "Remoting-Embedded-Version" | cut -d: -f2 | tr -d '[:space:]')"
-  if [[ "${remoting_embedded_version}" != "$(jq -r '.remoting.version' "${config}")" ]]; then
-    ERROR "ERROR: Remoting version specified for Jenkins ${version} (read $(jq -r '.remoting.version' "${config}")) does not match the one from WAR file (expected ${remoting_embedded_version})"
+  remoting_version="$(jq -r '.remoting.version' "${config}")"
+  if [[ "$(versions compare "${remoting_version}" "${remoting_embedded_version}")" -lt 0 ]]; then
+    printf "Remoting version (%s) specified for Jenkins %s does not match the one from the WAR file (expected >= %s)\n" "${remoting_version}" "${version}" "${remoting_embedded_version}" | ERROR
     exit 1
   else
     printf "Embedded remoting version %s matches with the remoting version specified in %s\n" "${remoting_embedded_version}" "${MASTERS_JSONNET}" | DEBUG
@@ -103,11 +104,12 @@ build_docker_image() {
 
   jq -r '.dockerfile' "${config}" > "${build_dir}/Dockerfile"
 
-  local image tag
+  local id image tag
+  id="$(jq -r '.id' "${config}")"
   image="$(jq -r '.docker.registry' "${config}")/$(jq -r '.docker.repository' "${config}")/$(jq -r '.docker.image' "${config}")"
   tag="$(jq -r '.docker.tag' "${config}")"
   local latest="false"
-  if [[ "${id}" = "${latest_id}" ]]; then
+  if [[ "${id}" = "${LATEST_ID}" ]]; then
     latest="true"
   fi
   
@@ -145,7 +147,8 @@ DEBUG "Removing potential dust (*.lock) of install-plugins.sh from previous runs
 find "${BUILD_DIR}" -type d -name "*.lock" -delete
 
 # latest Jenkins id
-latest_id=$(jq -r '.releases.latest' "${MASTERS_JSON}")
+LATEST_ID=$(jq -r '.latest' "${MASTERS_JSON}")
+printf "Jenkins latest id=%s\n" "${LATEST_ID}" | DEBUG
 
 # main
 if [[ -n ${MASTER_ID} ]]; then
