@@ -8,7 +8,9 @@
 #*******************************************************************************
 
 SHELL=/usr/bin/env bash
-MASTERS_IDS=$(shell jq -r '.masters[].id' <<<$$(jsonnet "masters.jsonnet" 2> /dev/null) || echo 'none')
+MASTERS=masters.jsonnet
+MASTERS_IDS:=$(shell jq -r '.masters[].id' <<<$$(jsonnet "$(MASTERS)" 2> /dev/null) || echo 'none')
+
 .PHONY: all clean $(MASTERS_IDS)
 
 .bashtools:
@@ -18,10 +20,10 @@ MASTERS_IDS=$(shell jq -r '.masters[].id' <<<$$(jsonnet "masters.jsonnet" 2> /de
 	.bashtools/gitw sparsecheckout https://github.com/eclipse-cbi/dockertools.git $@
 
 $(MASTERS_IDS): .dockertools
-	./build.sh masters.jsonnet $@
+	./build.sh $(MASTERS) $@
 
 all: .dockertools
-	./build.sh masters.jsonnet
+	./build.sh $(MASTERS)
 
 clean: 
 	rm -rf .bashtools .dockertools target

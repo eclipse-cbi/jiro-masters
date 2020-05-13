@@ -104,17 +104,17 @@ build_docker_image() {
 
   jq -r '.dockerfile' "${config}" > "${build_dir}/Dockerfile"
 
-  local id image tag
+  local id image tag images
   id="$(jq -r '.id' "${config}")"
   image="$(jq -r '.docker.registry' "${config}")/$(jq -r '.docker.repository' "${config}")/$(jq -r '.docker.image' "${config}")"
   tag="$(jq -r '.docker.tag' "${config}")"
-  local latest="false"
+  images="${image}:${tag}"
   if [[ "${id}" = "${LATEST_ID}" ]]; then
-    latest="true"
+    images="${images},${image}:latest"
   fi
   
-  INFO "Building docker image ${image}:${tag} (latest=${latest}, push=${PUSH_IMAGES})"
-  dockerw build "${image}" "${tag}" "${build_dir}/Dockerfile" "${build_dir}" "${PUSH_IMAGES}" "${latest}" |& TRACE
+  INFO "Building docker image ${images} (push=${PUSH_IMAGES})"
+  dockerw build2 "${images}" "${build_dir}/Dockerfile" "${build_dir}" "${PUSH_IMAGES}" |& TRACE
 }
 
 build_master() {
