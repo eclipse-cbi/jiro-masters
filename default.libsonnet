@@ -46,25 +46,25 @@
       "cloudbees-folder", # Organize jobs into folder
       "command-launcher", # Launch permanent agents via a command on the master
       "config-file-provider", # TO_REMOVE, direct dependency of "pipeline-maven"
-      "configuration-as-code",
+      "configuration-as-code", # ESSENTIAL Jenkins configuration as code (JCasC)
       "configuration-as-code-support", # TO_REMOVE, deprecated
       "credentials-binding", # withCredentials
-      "email-ext", 
-      "extended-read-permission",
+      "email-ext", # mailer plugin with a lot more options than 'mailer'
+      "extended-read-permission", # allows to show job configuration in read-only mode
       "external-monitor-job", #required for upgrade of core installed version
-      "extra-columns", # view custo
+      "extra-columns", # view customization
       "findbugs", #TO_REMOVE, deprecated (all feature in warnings-ng and analysis-model)
-      "gerrit-trigger",
+      "gerrit-trigger", # ESSENTIAL
       "ghprb", # TO_REMOVE (use GH branch source)
-      "git", # direct dependency of many (github..)
+      "git", # ESSENTIAL, direct dependency of other plugins (github..)
       "git-parameter", # lookup for usage
       "github",
       "github-branch-source",
-      "greenballs", # TO_REMOVE => useless
+      "greenballs", # ESSENTIAL, no one likes blue balls
       "jdk-tool", # TO_REMOVE, not used (depends on ORacle)
       "jobConfigHistory",
-      "kubernetes", # dah!
-      "ldap", # dah!
+      "kubernetes:1.25.7", # ESSENTIAL
+      "ldap", # ESSENTIAL
       "mailer", # ex-core plugin
       "matrix-auth",
       "pam-auth", # required for upgrade of core installed version
@@ -72,15 +72,15 @@
       "pipeline-maven",
       "pipeline-stage-view", # blueocean lite
       "promoted-builds",
-      "rebuild",
-      "simple-theme-plugin",
+      "rebuild", # Provides shortcuts to rebuild the last build
+      "simple-theme-plugin", # Theme
       "sonar:2.6.1",
-      "ssh-agent",
+      "ssh-agent", # ESSENTIAL
       "ssh-slaves",
-      "timestamper",
-      "windows-slaves", # TO_REMOVE, useless (only usefull when master run ON windows)
+      "timestamper", # See time stamps in console log
+      "windows-slaves", # TO_REMOVE, useless (only useful when master runs ON windows)
       "workflow-aggregator", # base pipeline
-      "ws-cleanup", # TO_REMOVE, IMO useless
+      "ws-cleanup", # Clean-up workspace, useful for all builds that do not run on dynamic build agents
       "xvnc",
     ],
     dockerfile: (importstr "Dockerfile") % ( self + { docker_from: jenkins.docker.from } ),
