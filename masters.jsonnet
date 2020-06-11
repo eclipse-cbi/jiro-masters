@@ -10,13 +10,19 @@ local default = import "default.libsonnet";
 {
   # Latest reference an ID, not the version that is used
   # but as the default id=version so it looks like we're using the version in most cases
-  latest: "2.222.3", 
+  latest: "2.222.4", 
   masters: {
     [master.id]: master for master in [
       default + {
         version: "2.229",
         remoting+: {
           version: "4.3",
+        },
+      },
+      default + {
+        version: "2.222.4",
+        remoting+: {
+          version: "4.2.1",
         },
       },
       default + {
