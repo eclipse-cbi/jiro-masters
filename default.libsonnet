@@ -47,7 +47,6 @@
       "command-launcher", # Launch permanent agents via a command on the master
       "config-file-provider", # TO_REMOVE, direct dependency of "pipeline-maven"
       "configuration-as-code", # ESSENTIAL Jenkins configuration as code (JCasC)
-      "configuration-as-code-support", # TO_REMOVE, deprecated
       "credentials-binding", # withCredentials
       "email-ext", # mailer plugin with a lot more options than 'mailer'
       "extended-read-permission", # allows to show job configuration in read-only mode
