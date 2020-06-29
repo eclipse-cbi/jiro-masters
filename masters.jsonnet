@@ -14,6 +14,22 @@ local default = import "default.libsonnet";
   masters: {
     [master.id]: master for master in [
       default + {
+        id: "%s-jdk11" % self.version,
+        version: "2.235.1",
+        remoting+: {
+          version: "4.3",
+        },
+        docker+: {
+          from: "eclipsecbi/adoptopenjdk-coreutils:openjdk11-openj9-alpine-slim",
+        },
+      },
+      default + {
+        version: "2.235.1",
+        remoting+: {
+          version: "4.3",
+        }
+      },
+      default + {
         version: "2.229",
         remoting+: {
           version: "4.3",
