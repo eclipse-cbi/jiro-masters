@@ -40,25 +40,7 @@ local default = import "default.libsonnet";
         remoting+: {
           version: "4.2.1",
         },
-      },
-      default + {
-        version: "2.222.3",
-        remoting+: {
-          version: "4.2.1",
-        },
-      },
-      default + {
-        version: "2.222.1",
-        remoting+: {
-          version: "4.2",
-        },
-      },
-      default + {
-        version: "2.204.6",
-        remoting+: {
-          version: "3.36.1",
-        },
-      },
+      }
     ]
   },
 }
