@@ -22,12 +22,16 @@ local default = import "default.libsonnet";
         docker+: {
           from: "eclipsecbi/adoptopenjdk-coreutils:openjdk11-openj9-alpine-slim",
         },
+        pubkey: importstr 'jenkins-2.235.3-onward.war.pub.asc',
+        key_fingerprint: 'FCEF32E745F2C3D5',
       },
       default + {
         version: "2.235.3",
         remoting+: {
           version: "4.3",
-        }
+        },
+        pubkey: importstr 'jenkins-2.235.3-onward.war.pub.asc',
+        key_fingerprint: 'FCEF32E745F2C3D5',
       },
       default + {
         version: "2.229",
