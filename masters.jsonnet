@@ -15,7 +15,7 @@ local default = import "default.libsonnet";
     [master.id]: master for master in [
       default + {
         id: "%s-jdk11" % self.version,
-        version: "2.235.1",
+        version: "2.235.3",
         remoting+: {
           version: "4.3",
         },
@@ -24,7 +24,7 @@ local default = import "default.libsonnet";
         },
       },
       default + {
-        version: "2.235.1",
+        version: "2.235.3",
         remoting+: {
           version: "4.3",
         }
