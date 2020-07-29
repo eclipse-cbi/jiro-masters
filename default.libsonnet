@@ -59,6 +59,8 @@
       "git-parameter", # lookup for usage
       "github",
       "github-branch-source",
+      "gitlab-plugin",
+      "gitlab-branch-source",
       "greenballs", # ESSENTIAL, no one likes blue balls
       "jdk-tool", # TO_REMOVE, not used (depends on ORacle)
       "jobConfigHistory",
@@ -73,7 +75,7 @@
       "promoted-builds",
       "rebuild", # Provides shortcuts to rebuild the last build
       "simple-theme-plugin", # Theme
-      "sonar:2.6.1",
+      "sonar:2.6.1", #FIXME use latest plugin version after SonarCloud server has been turned off
       "ssh-agent", # ESSENTIAL
       "ssh-slaves",
       "timestamper", # See time stamps in console log

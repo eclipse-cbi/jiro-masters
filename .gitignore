@@ -1,3 +1,4 @@
 .bashtools
 .dockertools
 target/
+/.project
