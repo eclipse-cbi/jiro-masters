@@ -81,7 +81,7 @@ local newController(controllerVersion, remotingVersion) = {
     "promoted-builds",
     "rebuild", # Provides shortcuts to rebuild the last build
     "simple-theme-plugin", # Theme
-    "sonar:2.6.1", #FIXME use latest plugin version after SonarCloud server has been turned off
+    "sonar", # Using latest plugin version after SonarQube server has been turned off
     "ssh-agent", # ESSENTIAL
     "ssh-slaves",
     "timestamper", # See time stamps in console log
