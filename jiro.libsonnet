@@ -91,8 +91,8 @@ local newController(controllerVersion, remotingVersion) = {
     "xvnc",
   ],
   dockerfile: (importstr "Dockerfile") % ( self + { docker_from: jenkins.docker.from } ),
-  key_fingerprint: "9B7D32F2D50582E6",
-  pubkey: importstr "jenkins.war.pub.asc",
+  key_fingerprint: "FCEF32E745F2C3D5",
+  pubkey: importstr "jenkins.war.cdf.pub.asc",
 };
 {
   newController:: newController,

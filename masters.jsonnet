@@ -13,20 +13,28 @@ local jiro = import "jiro.libsonnet";
   latest: "2.222.4", 
   masters: {
     [master.id]: master for master in [
+      jiro.newController("2.249.1", "4.5") + {
+        id: "%s-jdk11" % self.version,
+        docker+: {
+          from: "eclipsecbi/adoptopenjdk-coreutils:openjdk11-openj9-alpine-slim",
+        },
+      },
       jiro.newController("2.235.3", "4.3") + {
         id: "%s-jdk11" % self.version,
         docker+: {
           from: "eclipsecbi/adoptopenjdk-coreutils:openjdk11-openj9-alpine-slim",
         },
-        pubkey: importstr 'jenkins-2.235.3-onward.war.pub.asc',
-        key_fingerprint: 'FCEF32E745F2C3D5',
       },
-      jiro.newController("2.235.3", "4.3") + {
-        pubkey: importstr 'jenkins-2.235.3-onward.war.pub.asc',
-        key_fingerprint: 'FCEF32E745F2C3D5',
+      jiro.newController("2.235.3", "4.3"),
+      // Versions below use old certificate from Kohsuke Kawaguchi
+      jiro.newController("2.229", "4.3") {
+        pubkey: importstr 'jenkins.war.kk.pub.asc',
+        key_fingerprint: '9B7D32F2D50582E6',
       },
-      jiro.newController("2.229", "4.3"),
-      jiro.newController("2.222.4", "4.2.1"),
+      jiro.newController("2.222.4", "4.2.1") {
+        pubkey: importstr 'jenkins.war.kk.pub.asc',
+        key_fingerprint: '9B7D32F2D50582E6',
+      },
     ]
   },
 }
