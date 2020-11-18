@@ -44,7 +44,7 @@ local newController(controllerVersion, remotingVersion) = {
   updateCenter: "https://updates.jenkins.io",
   plugins: [
     "analysis-core", 
-    "ant", # Ant support (global tools, pipleine, freestype job build step)
+    "ant", # Ant support (global tools, pipeline, freestyle job build step)
     "antisamy-markup-formatter", # Provides "Safe HTML" option
     "authorize-project", #security
     "bouncycastle-api", # IMPLIED by many, maybe not required
@@ -58,7 +58,6 @@ local newController(controllerVersion, remotingVersion) = {
     "extended-read-permission", # allows to show job configuration in read-only mode
     "external-monitor-job", #required for upgrade of core installed version
     "extra-columns", # view customization
-    "findbugs", #TO_REMOVE, deprecated (all feature in warnings-ng and analysis-model)
     "gerrit-trigger", # ESSENTIAL
     "ghprb", # TO_REMOVE (use GH branch source)
     "git", # ESSENTIAL, direct dependency of other plugins (github..)
@@ -85,7 +84,7 @@ local newController(controllerVersion, remotingVersion) = {
     "ssh-agent", # ESSENTIAL
     "ssh-slaves",
     "timestamper", # See time stamps in console log
-    "windows-slaves", # TO_REMOVE, useless (only useful when master runs ON windows)
+    "warnings-ng", # ESSENTIAL: static code analysis, replaces findbugs plugin, etc
     "workflow-aggregator", # base pipeline
     "ws-cleanup", # Clean-up workspace, useful for all builds that do not run on dynamic build agents
     "xvnc",
