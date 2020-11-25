@@ -13,7 +13,7 @@ local jiro = import "jiro.libsonnet";
   latest: "2.222.4", 
   masters: {
     [master.id]: master for master in [
-      jiro.newController("2.249.1", "4.5") {
+      jiro.newController("2.249.3", "4.5") {
         id: "%s-jdk11" % self.version,
         docker+: {
           from: "eclipsecbi/adoptopenjdk-coreutils:openjdk11-openj9-alpine-slim",
