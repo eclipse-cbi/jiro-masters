@@ -43,7 +43,6 @@ local newController(controllerVersion, remotingVersion) = {
   # Does not set the plugin center to be used by the running instance.
   updateCenter: "https://updates.jenkins.io",
   plugins: [
-    "analysis-core", 
     "ant", # Ant support (global tools, pipeline, freestyle job build step)
     "antisamy-markup-formatter", # Provides "Safe HTML" option
     "authorize-project", #security
