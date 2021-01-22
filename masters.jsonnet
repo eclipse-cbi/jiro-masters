@@ -10,25 +10,10 @@ local jiro = import "jiro.libsonnet";
 {
   # Latest references an ID, not the version that is used
   # but as the default id=version so it looks like we're using the version in most cases
-  latest: "2.263.2-jdk11", 
+  latest: "2.263.2", 
   masters: {
     [master.id]: master for master in [
-      jiro.newController("2.263.2", "4.5") {
-        id: "%s-jdk11" % self.version,
-        docker+: {
-          from: "eclipsecbi/adoptopenjdk-coreutils:openjdk11-openj9-alpine-slim",
-        },
-      },
-     
-      // Versions below use old certificate from Kohsuke Kawaguchi
-      jiro.newController("2.229", "4.3") {
-        pubkey: importstr 'jenkins.war.kk.pub.asc',
-        key_fingerprint: '9B7D32F2D50582E6',
-      },
-      jiro.newController("2.222.4", "4.2.1") {
-        pubkey: importstr 'jenkins.war.kk.pub.asc',
-        key_fingerprint: '9B7D32F2D50582E6',
-      },
+      jiro.newController("2.263.2", "4.5"),
     ]
   },
 }
