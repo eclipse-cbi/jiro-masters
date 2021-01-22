@@ -19,7 +19,7 @@ MASTERS_JSONNET="${1}"
 MASTER_ID="${2:-}"
 PUSH_IMAGES="${PUSH_IMAGES:-"true"}"
 
-TOOLS_IMAGE="eclipsecbi/adoptopenjdk-coreutils:openjdk8-openj9-alpine-slim"
+TOOLS_IMAGE="eclipsecbi/adoptopenjdk-coreutils:openjdk11-openj9-alpine-slim"
 BUILD_DIR="${SCRIPT_FOLDER}/target/"
 MASTERS_JSON="${BUILD_DIR}/masters.json"
 
@@ -74,6 +74,8 @@ download_plugins() {
   INFO "Downloading Jenkins plugins to be installed"
 
   mkdir -p "${config_dir}/ref"
+  mkdir -p "$(readlink -f "${build_dir}/../cache")"
+
   jq -r '.plugins[]' "${config}" > "${build_dir}/plugins.txt"
 
   local updateCenter war_file
@@ -82,6 +84,7 @@ download_plugins() {
   printf "Downloading plugins from update center '%s'" "${updateCenter}\n" | DEBUG
 
   docker run -u "$(id -u):$(id -g)" --rm \
+    -v "$(readlink -f "${build_dir}/../cache"):/cache" \
     -v "${build_dir}/scripts:/usr/local/bin" \
     -v "${build_dir}:${IMAGE_WD}" \
     -w "${IMAGE_WD}" \
@@ -89,12 +92,14 @@ download_plugins() {
     --entrypoint "" \
     "${TOOLS_IMAGE}" \
     /bin/bash -c \
-      "export REF='${IMAGE_WD}/ref' \
-      && export JENKINS_WAR='${IMAGE_WD}/${war_file}' \
-      && export JENKINS_UC='${updateCenter}' \
-      && export CURL_RETRY='8' \
-      && export CURL_RETRY_MAX_TIME='120' \
-      && ./tools/install-plugins.sh < plugins.txt" | TRACE
+      "export CACHE_DIR=/cache && \
+      java -jar ./tools/jenkins-plugin-manager.jar \
+        --plugin-file plugins.txt \
+        --list \
+        --view-security-warnings \
+        --plugin-download-directory '${IMAGE_WD}/ref/plugins' \
+        --jenkins-update-center '${updateCenter}' \
+        --war '${IMAGE_WD}/${war_file}' > ${IMAGE_WD}/plugins.log" | TRACE
 }
 
 build_docker_image() {
@@ -130,10 +135,9 @@ build_master() {
   download_war_file "${config}"
 
   INFO "Downloading support scripts"
-  download ifmodified "$(jq -r '.scripts.install_plugins' "${config}")" "${config_dir}/tools/install-plugins.sh"
+  download ifmodified "$(jq -r '.plugin_manager.jar' "${config}")" "${config_dir}/tools/jenkins-plugin-manager.jar"
   download ifmodified "$(jq -r '.scripts.jenkins_support' "${config}")" "${config_dir}/scripts/jenkins-support"
   download ifmodified "$(jq -r '.scripts.jenkins' "${config}")" "${config_dir}/scripts/jenkins.sh"
-  chmod u+x "${config_dir}/scripts/"*.sh "${config_dir}/tools/"*.sh
   
   download_plugins "${config}"
   build_docker_image "${config}"
