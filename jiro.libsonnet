@@ -35,9 +35,12 @@ local newController(controllerVersion, remotingVersion) = {
   war: "/usr/share/jenkins/jenkins.war",
   scripts: {
     base_url::"https://github.com/jenkinsci/docker/raw/master",
-    install_plugins: "%s/install-plugins.sh" % self.base_url,
     jenkins_support: "%s/jenkins-support" % self.base_url,
     jenkins: "%s/jenkins.sh" % self.base_url,
+  },
+  plugin_manager: {
+    version: "2.5.0",
+    jar:"https://github.com/jenkinsci/plugin-installation-manager-tool/releases/download/%s/jenkins-plugin-manager-%s.jar" % [self.version, self.version],
   },
   # update center from which the plugins will be download. 
   # Does not set the plugin center to be used by the running instance.
