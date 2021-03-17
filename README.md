@@ -1,4 +1,5 @@
 [![Build Status](https://ci.eclipse.org/cbi/buildStatus/icon?job=jiro-masters%2Fmaster)](https://ci.eclipse.org/cbi/job/jiro-masters/job/master/)
+[![GitHub license](https://img.shields.io/github/license/eclipse-cbi/jiro-masters.svg)](https://github.com/eclipse-cbi/jiro-masters/blob/master/LICENSE)
 
 # JIRO Masters
 
