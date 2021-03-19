@@ -66,7 +66,7 @@ local newController(controllerVersion, remotingVersion) = {
     "git-parameter", # lookup for usage
     "github",
     "github-branch-source",
-    "gitlab-plugin",
+    "gitlab-plugin:1.5.13",
     "gitlab-branch-source",
     "greenballs", # ESSENTIAL, no one likes blue balls
     "jdk-tool", # TO_REMOVE, not used (depends on ORacle)
