@@ -71,7 +71,7 @@ local newController(controllerVersion, remotingVersion) = {
     "greenballs", # ESSENTIAL, no one likes blue balls
     "jdk-tool", # TO_REMOVE, not used (depends on ORacle)
     "jobConfigHistory",
-    "kubernetes:1.25.7", # ESSENTIAL
+    "kubernetes", # ESSENTIAL
     "ldap", # ESSENTIAL
     "mailer", # ex-core plugin
     "matrix-auth",
