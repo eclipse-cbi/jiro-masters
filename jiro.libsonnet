@@ -72,8 +72,6 @@ local newController(controllerVersion, remotingVersion) = {
     "jdk-tool", # TO_REMOVE, not used (depends on ORacle)
     "jobConfigHistory",
     "kubernetes:1.29.7", # ESSENTIAL
-    "kubernetes-client-api:4.13.3-1",
-    "kubernetes-credentials:0.8.0",
     "ldap", # ESSENTIAL
     "mailer", # ex-core plugin
     "matrix-auth",
