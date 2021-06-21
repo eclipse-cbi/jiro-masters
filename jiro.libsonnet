@@ -39,7 +39,7 @@ local newController(controllerVersion, remotingVersion) = {
     jenkins: "%s/jenkins.sh" % self.base_url,
   },
   plugin_manager: {
-    version: "2.9.0",
+    version: "2.9.2",
     jar:"https://github.com/jenkinsci/plugin-installation-manager-tool/releases/download/%s/jenkins-plugin-manager-%s.jar" % [self.version, self.version],
   },
   # update center from which the plugins will be download. 
@@ -71,7 +71,7 @@ local newController(controllerVersion, remotingVersion) = {
     "greenballs", # ESSENTIAL, no one likes blue balls
     "jdk-tool", # TO_REMOVE, not used (depends on ORacle)
     "jobConfigHistory",
-    "kubernetes:1.29.7", # ESSENTIAL
+    "kubernetes", # ESSENTIAL
     "ldap", # ESSENTIAL
     "mailer", # ex-core plugin
     "matrix-auth",
