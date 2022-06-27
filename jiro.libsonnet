@@ -39,10 +39,10 @@ local newController(controllerVersion, remotingVersion) = {
     jenkins: "%s/jenkins.sh" % self.base_url,
   },
   plugin_manager: {
-    version: "2.9.2",
+    version: "2.12.6",
     jar:"https://github.com/jenkinsci/plugin-installation-manager-tool/releases/download/%s/jenkins-plugin-manager-%s.jar" % [self.version, self.version],
   },
-  # update center from which the plugins will be download. 
+  # update center from which the plugins will be download.
   # Does not set the plugin center to be used by the running instance.
   updateCenter: "https://updates.jenkins.io",
   plugins: [
