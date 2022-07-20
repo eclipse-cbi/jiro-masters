@@ -13,6 +13,7 @@ local jiro = import "jiro.libsonnet";
   latest: "2.332.3", 
   masters: {
     [master.id]: master for master in [
+      jiro.newController("2.346.2", "4.13.2"),
       jiro.newController("2.332.3", "4.13"),
     ]
   },
