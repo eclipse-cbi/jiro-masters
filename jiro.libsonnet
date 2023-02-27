@@ -25,7 +25,7 @@ local newController(controllerVersion, remotingVersion) = {
     repository: "eclipsecbi",
     image: "jiro-master",
     tag: jenkins.id,
-    from: "eclipsecbi/adoptopenjdk-coreutils:openjdk11-openj9-debian-slim",
+    from: "eclipsecbi/semeru-ubuntu-coreutils:openjdk11-jammy",
   },
   username: "jenkins",
   home: "/var/jenkins",
