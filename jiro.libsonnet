@@ -60,7 +60,6 @@ local newController(controllerVersion, remotingVersion) = {
     "extended-read-permission", # allows to show job configuration in read-only mode
     "external-monitor-job", #required for upgrade of core installed version
     "extra-columns", # view customization
-    "gerrit-trigger", # ESSENTIAL
     "ghprb", # TO_REMOVE (use GH branch source)
     "git", # ESSENTIAL, direct dependency of other plugins (github..)
     "git-parameter", # lookup for usage
