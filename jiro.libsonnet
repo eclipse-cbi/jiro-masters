@@ -74,6 +74,7 @@ local newController(controllerVersion, remotingVersion) = {
     "ldap", # ESSENTIAL
     "mailer", # ex-core plugin
     "matrix-auth",
+    "maven-plugin",
     "pam-auth", # required for upgrade of core installed version
     "parameterized-trigger",
     "pipeline-maven",
