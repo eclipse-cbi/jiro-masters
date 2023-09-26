@@ -67,7 +67,6 @@ local newController(controllerVersion, remotingVersion) = {
     "github-branch-source",
     "gitlab-plugin",
     "gitlab-branch-source",
-    "greenballs", # ESSENTIAL, no one likes blue balls
     "jdk-tool", # TO_REMOVE, not used (depends on ORacle)
     "jobConfigHistory",
     "kubernetes", # ESSENTIAL
