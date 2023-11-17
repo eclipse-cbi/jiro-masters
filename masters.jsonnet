@@ -13,6 +13,7 @@ local jiro = import "jiro.libsonnet";
   latest: "2.414.2",
   masters: {
     [master.id]: master for master in [
+      jiro.newController("2.426.1", "3160.vd76b_9ddd10cc")   + { key_fingerprint: "5BA31D57EF5975CA", pubkey: importstr "jenkins-keyring-2023.asc" },
       jiro.newController("2.414.3", "3131.vf2b_b_798b_ce99") + { key_fingerprint: "5BA31D57EF5975CA", pubkey: importstr "jenkins-keyring-2023.asc" },
       jiro.newController("2.414.2", "3131.vf2b_b_798b_ce99") + { key_fingerprint: "5BA31D57EF5975CA", pubkey: importstr "jenkins-keyring-2023.asc" },
     ]
