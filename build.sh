@@ -19,7 +19,7 @@ MASTERS_JSONNET="${1}"
 MASTER_ID="${2:-}"
 PUSH_IMAGES="${PUSH_IMAGES:-"true"}"
 
-TOOLS_IMAGE="eclipsecbi/adoptopenjdk-coreutils:openjdk11-openj9-alpine-slim"
+TOOLS_IMAGE="eclipsecbi/eclipse-temurin-coreutils:11-alpine"
 BUILD_DIR="${SCRIPT_FOLDER}/target/"
 MASTERS_JSON="${BUILD_DIR}/masters.json"
 
@@ -30,7 +30,7 @@ download_war_file() {
   local build_dir
   build_dir="$(dirname "${config}")"
   INFO "Downloading and verifying Jenkins war file"
-  
+
   mkdir -p "${config_dir}/war"
 
   local version key_fingerprint war_base_url war_file
@@ -117,7 +117,7 @@ build_docker_image() {
   if [[ "${id}" = "${LATEST_ID}" ]]; then
     images="${images},${image}:latest"
   fi
-  
+
   INFO "Building docker image ${images} (push=${PUSH_IMAGES})"
   dockerw build2 "${images}" "${build_dir}/Dockerfile" "${build_dir}" "${PUSH_IMAGES}" |& TRACE
 }
@@ -128,7 +128,7 @@ build_master() {
   local config="${config_dir}/config.json"
 
   INFO "Building jiro-master '${id}'"
-  
+
   mkdir -p "${config_dir}"
   jq -r '.masters["'"${id}"'"]' "${MASTERS_JSON}" > "${config}"
 
@@ -138,7 +138,7 @@ build_master() {
   download ifmodified "$(jq -r '.plugin_manager.jar' "${config}")" "${config_dir}/tools/jenkins-plugin-manager.jar"
   download ifmodified "$(jq -r '.scripts.jenkins_support' "${config}")" "${config_dir}/scripts/jenkins-support"
   download ifmodified "$(jq -r '.scripts.jenkins' "${config}")" "${config_dir}/scripts/jenkins.sh"
-  
+
   download_plugins "${config}"
   build_docker_image "${config}"
 }
@@ -157,7 +157,7 @@ printf "Jenkins latest id=%s\n" "${LATEST_ID}" | DEBUG
 # main
 if [[ -n ${MASTER_ID} ]]; then
   build_master "${MASTER_ID}"
-else 
+else
   for id in $(jq -r '.masters | keys[]' "${MASTERS_JSON}"); do
     build_master "${id}"
   done

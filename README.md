@@ -15,7 +15,7 @@ local jiro = import "jiro.libsonnet";
 {
   # Latest references an ID, not the version that is used
   # but as the default id=version so it looks like we're using the version in most cases
-  latest: "2.263.3", 
+  latest: "2.263.3",
   masters: {
     [master.id]: master for master in [
       jiro.newController("2.263.3", "4.5"),
@@ -41,19 +41,19 @@ Remoting-Embedded-Version: 4.2
 
 ## How to add custom controller?
 
-All fields in `jiro.libsonnet` can be overriden in the `masters` array elements, e.g. to define a jdk11 based master:
+All fields in `jiro.libsonnet` can be overridden in the `masters` array elements, e.g. to define a jdk11 based master:
 
 ```jsonnet
 local jiro = import "jiro.libsonnet";
 
 {
-  latest: "2.235.3-jdk11", 
+  latest: "2.235.3-jdk11",
   masters: {
     [master.id]: master for master in [
       jiro.newController("2.235.3", "4.3") {
         id: "%s-jdk11" % self.version,
         docker+: {
-          from: "eclipsecbi/adoptopenjdk-coreutils:openjdk11-openj9-alpine-slim",
+          from: "eclipsecbi/eclipse-temurin-coreutils:11-alpine",
         },
         pubkey: importstr 'jenkins-2.235.3-onward.war.pub.asc',
         key_fingerprint: 'FCEF32E745F2C3D5',
