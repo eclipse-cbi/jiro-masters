@@ -15,6 +15,12 @@ local jiro = import "jiro.libsonnet";
     [master.id]: master for master in [
       jiro.newController("2.426.3", "3160.vd76b_9ddd10cc"),
       jiro.newController("2.440.1", "3206.vb_15dcf73f6a_9"),
+      jiro.newController("2.440.1", "3206.vb_15dcf73f6a_9") {
+        docker+: {
+          id: "%s-jdk17" % self.version,
+          from: "eclipsecbi/semeru-ubuntu-coreutils:openjdk17-jammy"
+        }
+      },
     ]
   },
 }
