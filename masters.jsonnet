@@ -20,6 +20,12 @@ local jiro = import "jiro.libsonnet";
           from: "eclipsecbi/semeru-ubuntu-coreutils:openjdk17-jammy"
         }
       },
+      jiro.newController("2.440.2", "3206.vb_15dcf73f6a_9") {
+        id: "%s-jdk17" % self.version,
+        docker+: {
+          from: "eclipsecbi/semeru-ubuntu-coreutils:openjdk17-jammy"
+        }
+      },
     ]
   },
 }
