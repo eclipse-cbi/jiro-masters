@@ -21,7 +21,7 @@ ENV REF="%(ref)s"
 VOLUME [ "%(home)s", "%(webroot)s", "%(pluginroot)s" ]
 WORKDIR "%(home)s"
 
-ENTRYPOINT ["uid_entrypoint", "/usr/bin/dumb-init", "--", "/usr/local/bin/jenkins.sh"]
+ENTRYPOINT ["/usr/bin/dumb-init", "--", "/usr/local/bin/jenkins.sh"]
 
 RUN mkdir -p $(dirname "%(war)s") && mkdir -p "%(ref)s"
 
