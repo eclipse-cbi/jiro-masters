@@ -78,6 +78,7 @@ local newController(controllerVersion, remotingVersion) = {
     "parameterized-trigger",
     "pipeline-maven",
     "pipeline-stage-view", # blueocean lite
+    "prometheus", # metrics
     "promoted-builds",
     "rebuild", # Provides shortcuts to rebuild the last build
     "simple-theme-plugin", # Theme
