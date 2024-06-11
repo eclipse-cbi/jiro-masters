@@ -51,6 +51,7 @@ local newController(controllerVersion, remotingVersion) = {
     "authorize-project", #security
     "bouncycastle-api", # IMPLIED by many, maybe not required
     "build-timeout", # automatically abort a build if it’s taking too long
+    "cloudbees-disk-usage-simple", # disk usage monitoring with prometheus plugin
     "cloudbees-folder", # Organize jobs into folder
     "command-launcher", # Launch permanent agents via a command on the controller
     "config-file-provider", # TO_REMOVE, direct dependency of "pipeline-maven"
