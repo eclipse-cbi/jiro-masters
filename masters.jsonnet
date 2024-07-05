@@ -10,10 +10,10 @@ local jiro = import "jiro.libsonnet";
 {
   # Latest references an ID, not the version that is used
   # but as the default id=version so it looks like we're using the version in most cases
-  latest: "2.452.1",
+  latest: "2.452.2",
   masters: {
     [master.id]: master for master in [
-      jiro.newController("2.452.1", "3206.vb_15dcf73f6a_9"),
+      jiro.newController("2.452.2", "3206.vb_15dcf73f6a_9"),
     ]
   },
 }
