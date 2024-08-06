@@ -68,6 +68,7 @@ local newController(controllerVersion, remotingVersion) = {
     "github-branch-source",
     "gitlab-plugin",
     "gitlab-branch-source",
+    "hashicorp-vault-plugin", # Secrets management
     "jdk-tool", # TO_REMOVE, not used (depends on ORacle)
     "jobConfigHistory",
     "kubernetes", # ESSENTIAL
