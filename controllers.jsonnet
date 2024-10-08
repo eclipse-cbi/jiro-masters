@@ -7,16 +7,14 @@
 # SPDX-License-Identifier: EPL-2.0 OR MIT
 #*******************************************************************************
 local jiro = import "jiro.libsonnet";
+local controller_def = import "controller_definition.json";
 {
   # Latest references an ID, not the version that is used
   # but as the default id=version so it looks like we're using the version in most cases
-  latest: "2.452.4",
+  latest: controller_def.latest,
   controllers: {
     [controller.id]: controller for controller in [
-      jiro.newController("2.462.3", "3248.3250.v3277a_8e88c9b_"),
-      jiro.newController("2.462.1", "3248.3250.v3277a_8e88c9b_"),
-      jiro.newController("2.452.4", "3206.3208.v409508a_675ff"),
-      jiro.newController("2.452.1", "3206.vb_15dcf73f6a_9"),
+      jiro.newController(c_def.jenkinsVersion, c_def.remotingVersion) for c_def in controller_def.controllers
     ]
   },
 }
