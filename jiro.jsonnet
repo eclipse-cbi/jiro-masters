@@ -7,6 +7,7 @@
 # SPDX-License-Identifier: EPL-2.0 OR MIT
 #*******************************************************************************
 
+local controller_def = import "controller_definition.json";
 /**
  * Creates a new Jenkins controller.
  * @param controllerVersion the version of the controller to be used (as published at https://repo.jenkins-ci.org/public/org/jenkins-ci/main/jenkins-war/)
@@ -98,5 +99,13 @@ local newController(controllerVersion, remotingVersion) = {
   pubkey: importstr "jenkins-keyring-2023.asc",
 };
 {
-  newController:: newController,
+  # Latest references an ID, not the version that is used
+  # but as the default id=version so it looks like we're using the version in most cases
+  latest: controller_def.latest,
+  controllers: {
+    [controller.id]: controller for controller in [
+      newController(c_def.jenkinsVersion, c_def.remotingVersion) for c_def in controller_def.controllers
+    ]
+  },
 }
+

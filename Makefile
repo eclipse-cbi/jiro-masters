@@ -8,7 +8,7 @@
 #*******************************************************************************
 
 SHELL=/usr/bin/env bash
-CONTROLLERS=controllers.jsonnet
+CONTROLLERS=jiro.jsonnet
 CONTROLLERS_IDS:=$(shell jq -r '.controllers[].id' <<<$$(jsonnet "$(CONTROLLERS)" 2> /dev/null) || echo 'none')
 
 .PHONY: all clean $(CONTROLLERS_IDS)

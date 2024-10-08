@@ -2,3 +2,4 @@
 .dockertools
 target/
 /.project
+/controllers.json

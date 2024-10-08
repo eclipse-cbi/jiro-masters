@@ -15,7 +15,7 @@ export LOG_LEVEL="${LOG_LEVEL:-600}"
 SCRIPT_FOLDER="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 PATH="${SCRIPT_FOLDER}/.dockertools:${PATH}"
 
-CONTROLLERS_JSONNET="${1}"
+JIRO_JSONNET="${1}"
 CONTROLLER_ID="${2:-}"
 PUSH_IMAGES="${PUSH_IMAGES:-"true"}"
 
@@ -63,7 +63,7 @@ download_war_file() {
     printf "Remoting version (%s) specified for Jenkins %s does not match the one from the WAR file (expected >= %s)\n" "${remoting_version}" "${version}" "${remoting_embedded_version}" | ERROR
     exit 1
   else
-    printf "Embedded remoting version %s matches with the remoting version specified in %s\n" "${remoting_embedded_version}" "${CONTROLLERS_JSONNET}" | DEBUG
+    printf "Embedded remoting version %s matches with the remoting version specified in %s\n" "${remoting_embedded_version}" "${JIRO_JSONNET}" | DEBUG
   fi
 }
 
@@ -145,7 +145,7 @@ build_controller() {
 
 # gen the computed controllers.json (mainly for .controllers[])
 mkdir -p "${BUILD_DIR}/"
-jsonnet "${CONTROLLERS_JSONNET}" > "${CONTROLLERS_JSON}"
+jsonnet "${JIRO_JSONNET}" > "${CONTROLLERS_JSON}"
 
 DEBUG "Removing potential dust (*.lock) of install-plugins.sh from previous runs"
 find "${BUILD_DIR}" -type d -name "*.lock" -delete
