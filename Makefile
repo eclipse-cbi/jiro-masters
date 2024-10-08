@@ -8,10 +8,10 @@
 #*******************************************************************************
 
 SHELL=/usr/bin/env bash
-MASTERS=masters.jsonnet
-MASTERS_IDS:=$(shell jq -r '.masters[].id' <<<$$(jsonnet "$(MASTERS)" 2> /dev/null) || echo 'none')
+CONTROLLERS=controllers.jsonnet
+CONTROLLERS_IDS:=$(shell jq -r '.controllers[].id' <<<$$(jsonnet "$(CONTROLLERS)" 2> /dev/null) || echo 'none')
 
-.PHONY: all clean $(MASTERS_IDS)
+.PHONY: all clean $(CONTROLLERS_IDS)
 
 .bashtools:
 	bash -c "$$(curl -fsSL https://raw.githubusercontent.com/completeworks/bashtools/master/install.sh)"
@@ -19,11 +19,11 @@ MASTERS_IDS:=$(shell jq -r '.masters[].id' <<<$$(jsonnet "$(MASTERS)" 2> /dev/nu
 .dockertools: .bashtools
 	.bashtools/gitw sparsecheckout https://github.com/eclipse-cbi/dockertools.git $@
 
-$(MASTERS_IDS): .dockertools
-	./build.sh $(MASTERS) $@
+$(CONTROLLERS_IDS): .dockertools
+	./build.sh $(CONTROLLERS) $@
 
 all: .dockertools
-	./build.sh $(MASTERS)
+	./build.sh $(CONTROLLERS)
 
 clean: 
 	rm -rf .bashtools .dockertools target

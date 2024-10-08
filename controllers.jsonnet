@@ -11,8 +11,8 @@ local jiro = import "jiro.libsonnet";
   # Latest references an ID, not the version that is used
   # but as the default id=version so it looks like we're using the version in most cases
   latest: "2.452.4",
-  masters: {
-    [master.id]: master for master in [
+  controllers: {
+    [controller.id]: controller for controller in [
       jiro.newController("2.462.3", "3248.3250.v3277a_8e88c9b_"),
       jiro.newController("2.462.1", "3248.3250.v3277a_8e88c9b_"),
       jiro.newController("2.452.4", "3206.3208.v409508a_675ff"),
