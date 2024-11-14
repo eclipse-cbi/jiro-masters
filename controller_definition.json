@@ -12,14 +12,6 @@
     {
       "jenkinsVersion": "2.462.1",
       "remotingVersion": "3248.3250.v3277a_8e88c9b_"
-    },
-    { 
-      "jenkinsVersion": "2.452.4", 
-      "remotingVersion": "3206.3208.v409508a_675ff"
-    },
-    {
-      "jenkinsVersion": "2.452.1",
-      "remotingVersion": "3206.vb_15dcf73f6a_9"
     }
   ]
 }
