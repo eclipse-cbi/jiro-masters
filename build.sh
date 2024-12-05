@@ -19,7 +19,7 @@ JIRO_JSONNET="${1}"
 CONTROLLER_ID="${2:-}"
 PUSH_IMAGES="${PUSH_IMAGES:-"true"}"
 
-TOOLS_IMAGE="eclipsecbi/eclipse-temurin-coreutils:11-alpine"
+TOOLS_IMAGE="eclipsecbi/eclipse-temurin-coreutils:17-alpine"
 BUILD_DIR="${SCRIPT_FOLDER}/target/"
 CONTROLLERS_JSON="${BUILD_DIR}/controllers.json"
 
