@@ -58,6 +58,7 @@ local newController(controllerVersion, remotingVersion) = {
     "config-file-provider", # TO_REMOVE, direct dependency of "pipeline-maven"
     "configuration-as-code", # ESSENTIAL Jenkins configuration as code (JCasC)
     "credentials-binding", # withCredentials
+    "disk-usage", # disk usage trend per build, workspace.
     "email-ext", # mailer plugin with a lot more options than 'mailer'
     "extended-read-permission", # allows to show job configuration in read-only mode
     "external-monitor-job", #required for upgrade of core installed version
