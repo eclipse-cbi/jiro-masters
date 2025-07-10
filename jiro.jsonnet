@@ -8,6 +8,7 @@
 #*******************************************************************************
 
 local controller_def = import "controller_definition.json";
+local plugins = import "plugins.json";
 /**
  * Creates a new Jenkins controller.
  * @param controllerVersion the version of the controller to be used (as published at https://repo.jenkins-ci.org/public/org/jenkins-ci/main/jenkins-war/)
@@ -47,53 +48,7 @@ local newController(controllerVersion, remotingVersion) = {
   # Does not set the plugin center to be used by the running instance.
   updateCenter: "https://updates.jenkins.io",
   plugins: [
-    "ant", # Ant support (global tools, pipeline, freestyle job build step)
-    "antisamy-markup-formatter", # Provides "Safe HTML" option
-    "authorize-project", #security
-    "bouncycastle-api", # IMPLIED by many, maybe not required
-    "build-timeout", # automatically abort a build if it’s taking too long
-    "cloudbees-disk-usage-simple", # disk usage monitoring with prometheus plugin
-    "cloudbees-folder", # Organize jobs into folder
-    "command-launcher", # Launch permanent agents via a command on the controller
-    "config-file-provider", # TO_REMOVE, direct dependency of "pipeline-maven"
-    "configuration-as-code", # ESSENTIAL Jenkins configuration as code (JCasC)
-    "credentials-binding", # withCredentials
-    "email-ext", # mailer plugin with a lot more options than 'mailer'
-    "extended-read-permission", # allows to show job configuration in read-only mode
-    "external-monitor-job", #required for upgrade of core installed version
-    "extra-columns", # view customization
-    "ghprb", # TO_REMOVE (use GH branch source)
-    "git", # ESSENTIAL, direct dependency of other plugins (github..)
-    "git-parameter", # lookup for usage
-    "github",
-    "github-branch-source",
-    "gitlab-plugin",
-    "gitlab-branch-source",
-    "hashicorp-vault-plugin", # Secrets management
-    "jdk-tool", # TO_REMOVE, not used (depends on ORacle)
-    "jobConfigHistory",
-    "kubernetes", # ESSENTIAL
-    "ldap", # ESSENTIAL
-    "mailer", # ex-core plugin
-    "matrix-auth",
-    "maven-plugin",
-    "pam-auth", # required for upgrade of core installed version
-    "parameterized-trigger",
-    "pipeline-maven",
-    "pipeline-stage-view", # blueocean lite
-    "pipeline-graph-view", # blueocean lite
-    "prometheus", # metrics
-    "promoted-builds",
-    "rebuild", # Provides shortcuts to rebuild the last build
-    "simple-theme-plugin", # Theme
-    "sonar", # Using latest plugin version after SonarQube server has been turned off
-    "ssh-agent", # ESSENTIAL
-    "ssh-slaves",
-    "timestamper", # See time stamps in console log
-    "warnings-ng", # ESSENTIAL: static code analysis, replaces findbugs plugin, etc
-    "workflow-aggregator", # base pipeline
-    "ws-cleanup", # Clean-up workspace, useful for all builds that do not run on dynamic build agents
-    "xvnc",
+    plugin.name for plugin in plugins.plugins # imported from plugins.json
   ],
   dockerfile: (importstr "Dockerfile") % ( self + { docker_from: jenkins.docker.from } ),
   key_fingerprint: "5BA31D57EF5975CA",

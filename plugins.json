@@ -1,0 +1,192 @@
+{
+  "plugins": [
+    {
+     "name": "ant",
+     "comment": "Ant support (global tools, pipeline, freestyle job build step)"
+    },
+    {
+     "name": "antisamy-markup-formatter",
+     "comment": "Provides 'Safe HTML' option"
+    },
+    {
+     "name": "authorize-project",
+     "comment": "security"
+    },
+    {
+     "name": "bouncycastle-api",
+     "comment": "IMPLIED by many, maybe not required"
+    },
+    {
+     "name": "build-timeout",
+     "comment": "automatically abort a build if it’s taking too long"
+    },
+    {
+     "name": "cloudbees-disk-usage-simple",
+     "comment": "disk usage monitoring with prometheus plugin"
+    },
+    {
+     "name": "cloudbees-folder",
+     "comment": "Organize jobs into folder"
+    },
+    {
+     "name": "command-launcher",
+     "comment": "Launch permanent agents via a command on the controller"
+    },
+    {
+     "name": "config-file-provider",
+     "comment": "TO_REMOVE, direct dependency of 'pipeline-maven'"
+    },
+    {
+     "name": "configuration-as-code",
+     "comment": "ESSENTIAL Jenkins configuration as code (JCasC)"
+    },
+    {
+     "name": "credentials-binding",
+     "comment": "withCredentials"
+    },
+    {
+     "name": "email-ext",
+     "comment": "mailer plugin with a lot more options than 'mailer'"
+    },
+    {
+     "name": "extended-read-permission",
+     "comment": "allows to show job configuration in read-only mode"
+    },
+    {
+     "name": "external-monitor-job", 
+     "comment": "required for upgrade of core installed version"
+    },
+    {
+     "name": "extra-columns", 
+     "comment": "view customization"
+    },
+    {
+     "name": "ghprb", 
+     "comment": "TO_REMOVE (use GH branch source)"
+    },
+    {
+     "name": "git", 
+     "comment": "ESSENTIAL, direct dependency of other plugins (github..)"
+    },
+    {
+     "name": "git-parameter", 
+     "comment": "lookup for usage"
+    },
+    {
+     "name": "github",
+     "comment": ""
+    },
+    {
+     "name": "github-branch-source",
+     "comment": ""
+    },
+    {
+     "name": "gitlab-plugin",
+     "comment": ""
+    },
+    {
+     "name": "gitlab-branch-source",
+     "comment": ""
+    },
+    {
+     "name": "hashicorp-vault-plugin",
+     "comment": "Secrets management"
+    },
+    {
+     "name": "jdk-tool", 
+     "comment": "TO_REMOVE, not used (depends on Oracle)"
+    },
+    {
+     "name": "jobConfigHistory",
+     "comment": ""
+    },
+    {
+     "name": "kubernetes",
+     "comment": "ESSENTIAL"
+    },
+    {
+     "name": "ldap",
+     "comment": "ESSENTIAL"
+    },
+    {
+     "name": "mailer",
+     "comment": "ex-core plugin"
+    },
+    {
+     "name": "matrix-auth",
+     "comment": ""
+    },
+    {
+     "name": "maven-plugin",
+     "comment": ""
+    },
+    {
+     "name": "pam-auth",
+     "comment": "required for upgrade of core installed version"
+    },
+    {
+     "name": "parameterized-trigger",
+     "comment": ""
+    },
+    {
+     "name": "pipeline-maven",
+     "comment": ""
+    },
+    {
+     "name": "pipeline-stage-view",
+     "comment": "blueocean lite"
+    },
+    {
+     "name": "pipeline-graph-view",
+     "comment": "blueocean lite"
+    },
+    {
+     "name": "prometheus",
+     "comment": "metrics"
+    },
+    {
+     "name": "promoted-builds",
+     "comment": ""
+    },
+    {
+     "name": "rebuild",
+     "comment": "Provides shortcuts to rebuild the last build"
+    },
+    {
+     "name": "simple-theme-plugin",
+     "comment": "Theme"
+    },
+    {
+     "name": "sonar",
+     "comment": "Using latest plugin version after SonarQube server has been turned off"
+    },
+    {
+     "name": "ssh-agent",
+     "comment": "ESSENTIAL"
+    },
+    {
+     "name": "ssh-slaves",
+     "comment": ""
+    },
+    {
+     "name": "timestamper",
+     "comment": "See time stamps in console log"
+    },
+    {
+     "name": "warnings-ng",
+     "comment": "ESSENTIAL: static code analysis, replaces findbugs plugin, etc"
+    },
+    {
+     "name": "workflow-aggregator",
+     "comment": "base pipeline"
+    },
+    {
+     "name": "ws-cleanup",
+     "comment": "Clean-up workspace, useful for all builds that do not run on dynamic build agents"
+    },
+    {
+     "name": "xvnc",
+     "comment": ""
+    }
+  ]
+}
