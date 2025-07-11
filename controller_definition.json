@@ -28,6 +28,10 @@
     {
       "jenkinsVersion": "2.504.1",
       "remotingVersion": "3301.v4363ddcca_4e7"
+    },
+    {
+      "jenkinsVersion": "2.504.3",
+      "remotingVersion": "3301.v4363ddcca_4e7"
     }
   ]
 }
