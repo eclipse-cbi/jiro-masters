@@ -141,6 +141,10 @@
      "comment": "blueocean lite"
     },
     {
+     "name": "plugin-usage-plugin",
+     "comment": "Plugin usage"
+    },
+    {
      "name": "prometheus",
      "comment": "metrics"
     },
