@@ -6,11 +6,7 @@
       "remotingVersion": "3309.v27b_9314fd1a_4"
     },
     {
-      "jenkinsVersion": "2.528.1",
-      "remotingVersion": "3327.v868139a_d00e0"
-    },
-    {
-      "jenkinsVersion": "2.528.2",
+      "jenkinsVersion": "2.528.3",
       "remotingVersion": "3327.v868139a_d00e0"
     }
   ]
