@@ -21,6 +21,10 @@
      "comment": "automatically abort a build if it’s taking too long"
     },
     {
+     "name": "build-discarder",
+     "comment": "automatically discard builds"
+    },
+    {
      "name": "cloudbees-disk-usage-simple",
      "comment": "disk usage monitoring with prometheus plugin"
     },
