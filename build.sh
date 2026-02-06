@@ -38,7 +38,8 @@ download_war_file() {
   key_fingerprint="$(jq -r '.key_fingerprint' "${config}")"
   war_base_url="$(jq -r '.warBaseUrl' "${config}")"
   war_file="war/$(basename "$(jq -r '.war' "${config}")")"
-  jq -r '.pubkey' "${config}" > "${build_dir}/${war_file}.pub.asc"
+  pubkey_file="$(jq -r '.pubkey' "${config}")"
+  cat "${pubkey_file}" > "${build_dir}/${war_file}.pub.asc"
 
   printf "War base URL: %s\n" "${war_base_url}" | DEBUG
 
@@ -141,6 +142,8 @@ build_controller() {
 
   download_plugins "${config}"
   build_docker_image "${config}"
+  INFO "Building jiro-controller '${id}' done."
+  echo
 }
 
 # gen the computed controllers.json (mainly for .controllers[])

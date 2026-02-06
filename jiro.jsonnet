@@ -11,14 +11,13 @@ local controller_def = import "controller_definition.json";
 local plugins = import "plugins.json";
 /**
  * Creates a new Jenkins controller.
- * @param controllerVersion the version of the controller to be used (as published at https://repo.jenkins-ci.org/public/org/jenkins-ci/main/jenkins-war/)
- * @param remotingVersion the version of the remoting code this controller embeds.
+ * @param cdef controller definition loaded from controller_definition.json
  */
-local newController(controllerVersion, remotingVersion) = {
+local newController(cdef) = {
   id: self.version,
-  version: controllerVersion,
+  version: cdef.jenkinsVersion,
   remoting: {
-    version: remotingVersion,
+    version: cdef.remotingVersion,
   },
   warBaseUrl: "https://repo.jenkins-ci.org/public/org/jenkins-ci/main/jenkins-war/%s" % self.version,
   local jenkins = self,
@@ -51,8 +50,8 @@ local newController(controllerVersion, remotingVersion) = {
     plugin.name for plugin in plugins.plugins # imported from plugins.json
   ],
   dockerfile: (importstr "Dockerfile") % ( self + { docker_from: jenkins.docker.from } ),
-  key_fingerprint: "5BA31D57EF5975CA",
-  pubkey: importstr "jenkins-keyring-2023.asc",
+  key_fingerprint: if std.objectHas(cdef, 'key_fingerprint') then cdef.key_fingerprint else "7198F4B714ABFC68",  //default fingerprint
+  pubkey: if std.objectHas(cdef, 'pubkey') then cdef.pubkey else "jenkins-keyring-2026.asc", //default public key
 };
 {
   # Latest references an ID, not the version that is used
@@ -60,7 +59,7 @@ local newController(controllerVersion, remotingVersion) = {
   latest: controller_def.latest,
   controllers: {
     [controller.id]: controller for controller in [
-      newController(c_def.jenkinsVersion, c_def.remotingVersion) for c_def in controller_def.controllers
+      newController(cdef) for cdef in controller_def.controllers
     ]
   },
 }

@@ -3,7 +3,9 @@
   "controllers": [
     {
       "jenkinsVersion": "2.528.3",
-      "remotingVersion": "3327.v868139a_d00e0"
+      "remotingVersion": "3327.v868139a_d00e0",
+      "key_fingerprint": "5BA31D57EF5975CA",
+      "pubkey": "jenkins-keyring-2023.asc"
     },
     {
       "jenkinsVersion": "2.541.1",
