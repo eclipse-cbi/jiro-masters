@@ -26,7 +26,7 @@ local newController(cdef) = {
     repository: "eclipsecbi",
     image: "jiro-master",
     tag: jenkins.id,
-    from: "eclipsecbi/semeru-ubuntu-coreutils:openjdk17-jammy",
+    from: if std.objectHas(cdef, 'docker_from') then cdef.docker_from else "eclipsecbi/semeru-ubuntu-coreutils:openjdk17-jammy", //default docker image
   },
   username: "jenkins",
   home: "/var/jenkins",
