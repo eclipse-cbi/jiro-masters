@@ -8,7 +8,8 @@
       "pubkey": "jenkins-keyring-2023.asc"
     },
     {
-      "jenkinsVersion": "2.528.3-jdk21",
+      "jenkinsVersion": "2.528.3",
+      "id": "2.528.3-jdk21",
       "remotingVersion": "3327.v868139a_d00e0",
       "key_fingerprint": "5BA31D57EF5975CA",
       "pubkey": "jenkins-keyring-2023.asc",

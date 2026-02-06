@@ -14,7 +14,7 @@ local plugins = import "plugins.json";
  * @param cdef controller definition loaded from controller_definition.json
  */
 local newController(cdef) = {
-  id: self.version,
+  id: if std.objectHas(cdef, 'id') then cdef.id else self.version,
   version: cdef.jenkinsVersion,
   remoting: {
     version: cdef.remotingVersion,
