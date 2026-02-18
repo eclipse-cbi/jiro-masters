@@ -17,11 +17,13 @@
     },
     {
       "jenkinsVersion": "2.541.1",
-      "remotingVersion": "3352.v17a_fb_4b_2773f"
+      "id": "2.541.1-jdk21",
+      "remotingVersion": "3352.v17a_fb_4b_2773f",
+      "docker_from": "eclipsecbi/semeru-ubuntu-coreutils:openjdk21-jammy"
     },
     {
-      "jenkinsVersion": "2.541.1",
-      "id": "2.541.1-jdk21",
+      "jenkinsVersion": "2.541.2",
+      "id": "2.541.2-jdk21",
       "remotingVersion": "3352.v17a_fb_4b_2773f",
       "docker_from": "eclipsecbi/semeru-ubuntu-coreutils:openjdk21-jammy"
     }
