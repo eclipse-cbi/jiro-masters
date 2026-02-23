@@ -5,12 +5,12 @@
       "jenkinsVersion": "2.528.3",
       "remotingVersion": "3327.v868139a_d00e0",
       "key_fingerprint": "5BA31D57EF5975CA",
-      "pubkey": "jenkins-keyring-2023.asc"
+      "pubkey": "jenkins-keyring-2023.asc",
       "docker_from": "eclipsecbi/semeru-ubuntu-coreutils:openjdk17-jammy"
     },
     {
       "jenkinsVersion": "2.541.2",
-      "remotingVersion": "3352.v17a_fb_4b_2773f",
+      "remotingVersion": "3352.v17a_fb_4b_2773f"
     }
   ]
 }
