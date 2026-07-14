@@ -40,7 +40,7 @@ local newController(cdef) = {
     jenkins: "%s/jenkins.sh" % self.base_url,
   },
   plugin_manager: {
-    version: "2.13.2",
+    version: "2.15.0",
     jar:"https://github.com/jenkinsci/plugin-installation-manager-tool/releases/download/%s/jenkins-plugin-manager-%s.jar" % [self.version, self.version],
   },
   # update center from which the plugins will be download.
