@@ -16,14 +16,11 @@ CONTROLLERS_IDS:=$(shell jq -r '.controllers[].id' <<<$$(jsonnet "$(CONTROLLERS)
 .bashtools:
 	bash -c "$$(curl -fsSL https://raw.githubusercontent.com/completeworks/bashtools/master/install.sh)"
 
-.dockertools: .bashtools
-	.bashtools/gitw sparsecheckout https://github.com/eclipse-cbi/dockertools.git $@
-
-$(CONTROLLERS_IDS): .dockertools
+$(CONTROLLERS_IDS): .bashtools
 	./build.sh $(CONTROLLERS) $@
 
-all: .dockertools
+all: .bashtools
 	./build.sh $(CONTROLLERS)
 
 clean: 
-	rm -rf .bashtools .dockertools target
+	rm -rf .bashtools target

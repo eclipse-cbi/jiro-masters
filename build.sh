@@ -8,22 +8,25 @@
 # SPDX-License-Identifier: EPL-2.0 OR MIT
 #*******************************************************************************
 
+# Bash strict-mode
+set -o errexit
+set -o nounset
+set -o pipefail
+
+IFS=$'\n\t'
+
 export LOG_LEVEL="${LOG_LEVEL:-600}"
 # shellcheck disable=SC1090
 . "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/.bashtools/bashtools"
 
 SCRIPT_FOLDER="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
-PATH="${SCRIPT_FOLDER}/.dockertools:${PATH}"
 
 JIRO_JSONNET="${1}"
 CONTROLLER_ID="${2:-}"
-PUSH_IMAGES="${PUSH_IMAGES:-"true"}"
 
-TOOLS_IMAGE="eclipsecbi/eclipse-temurin-coreutils:17-alpine"
+BUILDKIT_URL="tcp://buildkitd.foundation-internal-infra-buildkitd:1234"
 BUILD_DIR="${SCRIPT_FOLDER}/target/"
 CONTROLLERS_JSON="${BUILD_DIR}/controllers.json"
-
-IMAGE_WD="/workdir"
 
 download_war_file() {
   local config="${1}"
@@ -43,18 +46,11 @@ download_war_file() {
 
   printf "War base URL: %s\n" "${war_base_url}" | DEBUG
 
-  docker run -u "$(id -u):$(id -g)" --rm \
-    -v "${build_dir}:${IMAGE_WD}" \
-    -w "${IMAGE_WD}" \
-    -e HOME="${IMAGE_WD}" \
-    --entrypoint "" \
-    "${TOOLS_IMAGE}" \
-    /bin/bash -c \
-      "curl -fsSL '${war_base_url}/jenkins-war-${version}.war.asc' -o '${war_file}.asc' -z '${war_file}.asc' \
-      && curl -fsSL '${war_base_url}/jenkins-war-${version}.war' -o '${war_file}' -z '${war_file}' \
-      && gpg -q --batch --import '${war_file}.pub.asc' \
-      && echo -e '5\ny\n' |  gpg -q --batch --command-fd 0 --expert --edit-key ${key_fingerprint} trust 2> /dev/null \
-      && gpg -q --batch --verify '${war_file}.asc' '${war_file}' 2>&1 /dev/null" |& TRACE
+  curl -fsSL "${war_base_url}/jenkins-war-${version}.war.asc" -o "${build_dir}/${war_file}.asc"
+  curl -fsSL "${war_base_url}/jenkins-war-${version}.war" -o "${build_dir}/${war_file}"
+  gpg -q --batch --import "${build_dir}/${war_file}.pub.asc"
+  echo -e '5\ny\n' |  gpg -q --batch --command-fd 0 --expert --edit-key "${key_fingerprint}" trust 2> /dev/null
+  gpg -q --batch --verify "${build_dir}/${war_file}.asc" "${build_dir}/${war_file}" 2>&1 /dev/null
 
   # Check if embedded remoting version as declared by war file >= the one declared in controllers.jsonnet
   local remoting_embedded_version remoting_version
@@ -84,23 +80,14 @@ download_plugins() {
   war_file="war/$(basename "$(jq -r '.war' "${config}")")"
   printf "Downloading plugins from update center '%s'" "${updateCenter}\n" | DEBUG
 
-  docker run -u "$(id -u):$(id -g)" --rm \
-    -v "$(readlink -f "${build_dir}/../cache"):/cache" \
-    -v "${build_dir}/scripts:/usr/local/bin" \
-    -v "${build_dir}:${IMAGE_WD}" \
-    -w "${IMAGE_WD}" \
-    -e HOME="${IMAGE_WD}" \
-    --entrypoint "" \
-    "${TOOLS_IMAGE}" \
-    /bin/bash -c \
-      "export CACHE_DIR=/cache && \
-      java -jar ./tools/jenkins-plugin-manager.jar \
-        --plugin-file plugins.txt \
+  export CACHE_DIR="${build_dir}/../cache" && \
+    java -jar "${config_dir}/tools/jenkins-plugin-manager.jar" \
+        --plugin-file "${build_dir}/plugins.txt" \
         --list \
         --view-security-warnings \
-        --plugin-download-directory '${IMAGE_WD}/ref/plugins' \
-        --jenkins-update-center '${updateCenter}' \
-        --war '${IMAGE_WD}/${war_file}' > ${IMAGE_WD}/plugins.log" | TRACE
+        --plugin-download-directory "${build_dir}/ref/plugins" \
+        --jenkins-update-center "${updateCenter}" \
+        --war "${build_dir}/${war_file}" > "${build_dir}/plugins.log"
 }
 
 build_docker_image() {
@@ -119,8 +106,22 @@ build_docker_image() {
     images="${images},${image}:latest"
   fi
 
-  INFO "Building docker image ${images} (push=${PUSH_IMAGES})"
-  dockerw build2 "${images}" "${build_dir}/Dockerfile" "${build_dir}" "${PUSH_IMAGES}" |& TRACE
+  INFO "Building docker image ${images}"
+
+  builder="remote-okd"
+
+  # only create builder if it does not exist yet
+  if ! docker buildx ls | grep "^${builder}" > /dev/null; then
+    docker buildx create --name "${builder}" --driver remote "${BUILDKIT_URL}"
+  fi
+  #NOTE: this call always pushes the image
+  DOCKER_BUILDKIT=1 docker buildx build \
+    --builder "${builder}" \
+    -f "${build_dir}/Dockerfile" \
+    --no-cache \
+    -t "${image}:${tag}" \
+    -t "${image}:latest" --push "${build_dir}"
+
 }
 
 build_controller() {
