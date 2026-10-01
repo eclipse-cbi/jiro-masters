@@ -8,6 +8,10 @@
     {
       "jenkinsVersion": "2.568.3",
       "remotingVersion": "3355.3357.v931d3c992987"
+    },
+    {
+      "jenkinsVersion": "2.580.1",
+      "remotingVersion": "3386.v353e57a_1b_ea_0"
     }
   ]
 }
