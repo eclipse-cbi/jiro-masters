@@ -57,23 +57,23 @@
      "comment": "allows to show job configuration in read-only mode"
     },
     {
-     "name": "external-monitor-job", 
+     "name": "external-monitor-job",
      "comment": "required for upgrade of core installed version"
     },
     {
-     "name": "extra-columns", 
+     "name": "extra-columns",
      "comment": "view customization"
     },
     {
-     "name": "ghprb", 
+     "name": "ghprb",
      "comment": "TO_REMOVE (use GH branch source)"
     },
     {
-     "name": "git", 
+     "name": "git",
      "comment": "ESSENTIAL, direct dependency of other plugins (github..)"
     },
     {
-     "name": "git-parameter", 
+     "name": "git-parameter",
      "comment": "lookup for usage"
     },
     {
@@ -97,7 +97,7 @@
      "comment": "Secrets management"
     },
     {
-     "name": "jdk-tool", 
+     "name": "jdk-tool",
      "comment": "TO_REMOVE, not used (depends on Oracle)"
     },
     {
@@ -111,6 +111,10 @@
     {
      "name": "ldap",
      "comment": "ESSENTIAL"
+    },
+    {
+     "name": "login-theme",
+     "comment": "Allows extending the theme for the login screen"
     },
     {
      "name": "mailer",
